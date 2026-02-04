@@ -1,0 +1,23 @@
+{
+  "intro": [
+    { "speaker": "Narrator", "text": "Bailee steps onto the back porch. The backyard feels… extra twinkly today." },
+    { "speaker": "Bailee", "text": "Okayyyy… why does the air feel like it’s fizzy? Mira, ¿qué es eso?" },
+    { "speaker": "Narrator", "text": "Three Wonder Sparks are hiding nearby. Find them to unlock the shed." }
+  ],
+  "snackCooler": [
+    { "speaker": "Bailee", "text": "Snack Cooler… my loyal buddy." },
+    { "speaker": "Snack Cooler", "text": "Pssst. I can talk. Also: do you have any grapes?" },
+    { "speaker": "Bailee", "text": "EXCUSE ME?! Coolers don’t talk!" }
+  ],
+  "windChimes": [
+    { "speaker": "Wind Chimes", "text": "Ting-a-ling! A secret breeze says: you’re doing great." },
+    { "speaker": "Bailee", "text": "That… was actually very sweet. Gracias, chimes!" }
+  ],
+  "shedLocked": [
+    { "speaker": "Bailee", "text": "The shed lock is glowing. It wants… a puzzle?" }
+  ],
+  "shedUnlocked": [
+    { "speaker": "Shed", "text": "Click—clack. Welcome, Bailee. You found enough Wonder Sparks." },
+    { "speaker": "Bailee", "text": "Okay… that’s DEFINITELY not normal. Let’s peek inside!" }
+  ]
+}

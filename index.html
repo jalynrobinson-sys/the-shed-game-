@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bailee and the Secret of the Talking Backyard Shed</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- Debug panel (always visible) -->
+  <div id="debugPanel" aria-live="polite">
+    <div class="dbgRow"><span class="dbgKey">HTML</span><span id="dbgHTML" class="dbgVal">…</span></div>
+    <div class="dbgRow"><span class="dbgKey">CSS</span><span id="dbgCSS" class="dbgVal">…</span></div>
+    <div class="dbgRow"><span class="dbgKey">JS</span><span id="dbgJS" class="dbgVal">…</span></div>
+    <div class="dbgRow"><span class="dbgKey">Data</span><span id="dbgData" class="dbgVal">…</span></div>
+    <hr class="dbgHr" />
+    <div class="dbgRow"><span class="dbgKey">Clicks</span><span id="dbgClicks" class="dbgVal">0</span></div>
+    <div class="dbgRow"><span class="dbgKey">Last target</span><span id="dbgTarget" class="dbgVal">—</span></div>
+    <div class="dbgRow"><span class="dbgKey">Last coords</span><span id="dbgCoords" class="dbgVal">—</span></div>
+  </div>
+
+  <!-- Start screen overlay (must NOT auto-skip) -->
+  <div id="startOverlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="startTitle">
+    <div class="overlayCard">
+      <h1 id="startTitle">Bailee and the Secret of the Talking Backyard</h1>
+      <p class="overlayText">
+        A cozy backyard adventure. No scary stuff. No losing.<br/>
+        Tap to move Bailee. Tap objects to discover Wonder Sparks ✨
+      </p>
+
+      <div class="overlayButtons">
+        <button id="startBtn" class="bigBtn">Start</button>
+        <button id="accessBtn" class="ghostBtn" type="button">Accessibility</button>
+      </div>
+
+      <div id="accessPanel" class="accessPanel" hidden>
+        <label class="toggleRow">
+          <input id="togReadToMe" type="checkbox" />
+          <span>Read to me (placeholder)</span>
+        </label>
+        <label class="toggleRow">
+          <input id="togTextSize" type="checkbox" />
+          <span>Bigger text</span>
+        </label>
+        <label class="toggleRow">
+          <input id="togReduceMotion" type="checkbox" />
+          <span>Reduced motion</span>
+        </label>
+        <label class="toggleRow">
+          <input id="togHighlight" type="checkbox" checked />
+          <span>Highlight interactables</span>
+        </label>
+      </div>
+
+      <p class="overlayHint">Tip: If you can’t click, something is blocking taps. The debug panel should count clicks.</p>
+    </div>
+  </div>
+
+  <!-- Toast / tiny message -->
+  <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Main game container -->
+  <main id="app" class="app" aria-label="Game">
+    <header class="topBar">
+      <div class="titleBlock">
+        <div class="gameTitle">The Shed</div>
+        <div class="subtitle">Chapter 1: The Backyard That Talks</div>
+      </div>
+
+      <div class="topRight">
+        <button id="btnBackpack" class="pillBtn" type="button" aria-expanded="false">🎒 Backpack</button>
+      </div>
+    </header>
+
+    <!-- Progress UI -->
+    <section class="hud">
+      <div class="sparksBox" aria-label="Wonder Sparks progress">
+        <div class="sparksLabel">Wonder Sparks</div>
+        <div id="sparksSlots" class="sparksSlots" role="img" aria-label="3 empty Wonder Spark slots"></div>
+      </div>
+      <div class="hintBox" id="hintBox">
+        Find 3 Wonder Sparks to unlock the shed.
+      </div>
+    </section>
+
+    <!-- Scene: Backyard -->
+    <section id="scene" class="scene" aria-label="Backyard scene">
+      <!-- Decorative layers must NOT block clicks -->
+      <div class="bgLayer" aria-hidden="true"></div>
+
+      <!-- Tap marker (coordinate proof) -->
+      <div id="moveMarker" class="moveMarker" aria-hidden="true"></div>
+
+      <!-- Bailee (placeholder character) -->
+      <div id="bailee" class="bailee" aria-label="Bailee" role="img">
+        <div class="baileeFace" aria-hidden="true"></div>
+        <div class="baileeName">Bailee</div>
+      </div>
+
+      <!-- Interactables -->
+      <button id="objSnackCooler" class="obj objSnack" type="button">🥤 Snack Cooler</button>
+      <button id="objWindChimes" class="obj objChimes" type="button">🎐 Wind Chimes</button>
+      <button id="objShedLock" class="obj objLock" type="button">🔒 Shed Lock</button>
+    </section>
+
+    <!-- Dialogue box -->
+    <section id="dialogueBox" class="dialogue" hidden aria-live="polite">
+      <div class="dialogueCard">
+        <div id="dialogueSpeaker" class="dialogueSpeaker">—</div>
+        <div id="dialogueText" class="dialogueText">—</div>
+        <div id="dialogueChoices" class="dialogueChoices"></div>
+        <div class="dialogueFooter">
+          <button id="dialogueNext" class="bigBtn" type="button">Tap to continue</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inventory tray -->
+    <section id="inventoryTray" class="inventory" hidden aria-label="Inventory">
+      <div class="inventoryHeader">
+        <div class="inventoryTitle">Backpack</div>
+        <button id="closeInventory" class="ghostBtn" type="button">Close</button>
+      </div>
+      <div id="inventoryItems" class="inventoryItems"></div>
+    </section>
+
+    <!-- Puzzle modal (block fitting) -->
+    <section id="puzzleModal" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="puzzleTitle">
+      <div class="overlayCard puzzleCard">
+        <h2 id="puzzleTitle">Shed Lock Puzzle</h2>
+        <p class="overlayText" id="puzzleDesc">
+          Fit the 3 chunky pieces into the board. No timer. No pressure. You’ve got this.
+        </p>
+
+        <div class="puzzleWrap">
+          <div id="puzzleBoard" class="puzzleBoard" aria-label="Puzzle board"></div>
+          <div class="puzzlePieces">
+            <div class="puzzleHelp">Tap a piece, then tap the board to place. Tap a placed piece to remove it.</div>
+            <div id="pieceTray" class="pieceTray" aria-label="Puzzle pieces"></div>
+            <div class="puzzleBtns">
+              <button id="btnPuzzleReset" class="ghostBtn" type="button">Reset</button>
+              <button id="btnPuzzleClose" class="ghostBtn" type="button">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="overlayHint">If taps don’t work, the debug “Clicks” number should still increase.</div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="./movement.js"></script>
+  <script src="./dialogue.js"></script>
+  <script src="./inventory.js"></script>
+  <script src="./progress.js"></script>
+  <script src="./game.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+[
+  { "id": "sparkSnack", "name": "Wonder Spark (Cooler)", "icon": "✨" },
+  { "id": "sparkChimes", "name": "Wonder Spark (Chimes)", "icon": "✨" },
+  { "id": "sparkPuzzle", "name": "Wonder Spark (Lock)", "icon": "✨" }
+]

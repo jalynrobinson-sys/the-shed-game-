@@ -1,0 +1,5 @@
+{
+  "sceneId": "backyard",
+  "name": "Backyard",
+  "interactables": ["Snack Cooler", "Wind Chimes", "Shed Lock"]
+}
