@@ -72,7 +72,6 @@ body{
   font-size: 16px;
 }
 
-/* Scene */
 .scene{
   position: relative;
   flex: 1;
@@ -81,18 +80,32 @@ body{
   overflow:hidden;
   border: 1px solid rgba(0,0,0,.08);
   box-shadow: var(--shadow);
-  background: linear-gradient(#dff6ff, #fff6d8);
   min-height: 420px;
-  touch-action: manipulation; /* mobile */
+  touch-action: manipulation;
+
+  /* Cozy illustrated palette */
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.9), transparent 35%),
+    radial-gradient(circle at 80% 18%, rgba(255,255,255,.75), transparent 40%),
+    linear-gradient(180deg, #bfe8ff 0%, #fff1c7 55%, #b9f0c7 100%);
 }
 
 .bgLayer{
   position:absolute; inset:0;
+  pointer-events: none;
+
+  /* Simple “storybook-ish” shapes using gradients */
   background:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,.8), transparent 45%),
-    radial-gradient(circle at 75% 25%, rgba(255,255,255,.7), transparent 40%),
-    linear-gradient(#dff6ff, #fff6d8);
-  pointer-events: none; /* IMPORTANT: do not block taps */
+    /* sun */
+    radial-gradient(circle at 82% 14%, rgba(255,227,133,.95) 0 70px, transparent 72px),
+    /* clouds */
+    radial-gradient(circle at 25% 18%, rgba(255,255,255,.85) 0 45px, transparent 47px),
+    radial-gradient(circle at 34% 16%, rgba(255,255,255,.80) 0 38px, transparent 40px),
+    radial-gradient(circle at 18% 16%, rgba(255,255,255,.80) 0 35px, transparent 37px),
+    /* bushes */
+    radial-gradient(circle at 20% 85%, rgba(65,190,110,.35) 0 110px, transparent 112px),
+    radial-gradient(circle at 45% 90%, rgba(65,190,110,.30) 0 140px, transparent 142px),
+    radial-gradient(circle at 80% 88%, rgba(65,190,110,.28) 0 150px, transparent 152px);
 }
 
 /* Bailee */
@@ -376,3 +389,4 @@ body.reduceMotion *{
   transition: none !important;
   animation: none !important;
 }
+
