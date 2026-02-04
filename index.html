@@ -4,8 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bailee and the Secret of the Talking Backyard Shed</title>
-  <link rel="stylesheet" href="./styles.css" />
-</head>
+<link rel="stylesheet" href="./styles.css" />
+<style>
+  /* Emergency fallback styling so you can SEE something even if styles.css fails */
+  #loadStatus {
+    position: fixed; right: 8px; top: 8px; z-index: 10000;
+    background: rgba(255,255,255,.95); border: 1px solid rgba(0,0,0,.15);
+    padding: 8px 10px; border-radius: 12px; font-weight: 800;
+    box-shadow: 0 6px 18px rgba(0,0,0,.10);
+  }
+</style>
+  
 <body>
   <!-- Debug panel (always visible) -->
   <div id="debugPanel" aria-live="polite">
@@ -149,12 +158,23 @@
     </section>
 
   </main>
+<div id="loadStatus">Loading…</div>
+<script>
+  // If you can see this change to "Inline JS OK", your HTML is executing scripts.
+  const s = document.getElementById("loadStatus");
+  if (s) s.textContent = "Inline JS OK";
+</script>
 
-<script src="./movement.js"></script>
-<script src="./dialogue.js"></script>
-<script src="./inventory.js"></script>
-<script src="./progress.js"></script>
-<script src="./game.js"></script>
+<script src="./movement.js" onerror="document.getElementById('loadStatus').textContent='FAILED: movement.js'"></script>
+<script src="./dialogue.js" onerror="document.getElementById('loadStatus').textContent='FAILED: dialogue.js'"></script>
+<script src="./inventory.js" onerror="document.getElementById('loadStatus').textContent='FAILED: inventory.js'"></script>
+<script src="./progress.js" onerror="document.getElementById('loadStatus').textContent='FAILED: progress.js'"></script>
+<script src="./game.js" onerror="document.getElementById('loadStatus').textContent='FAILED: game.js'"></script>
+<script>
+  // If we reach here, all script files loaded.
+  const s2 = document.getElementById("loadStatus");
+  if (s2) s2.textContent = "All JS files loaded ✅";
+</script>
+
 </body>
 </html>
-
