@@ -1,0 +1,7 @@
+{
+  "snacks": {
+    "name": "Snack Pack",
+    "description": "Fruit snacks + apple slices for brave adventures.",
+    "consumable": false
+  }
+}
