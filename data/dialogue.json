@@ -1,0 +1,179 @@
+
+const Dialogue = (() => {  
+
+const elements = {  
+
+container: document.querySelector("#dialogue"),  
+
+portrait: document.querySelector("#portrait"),  
+
+speaker: document.querySelector("#speaker"),  
+
+line: document.querySelector("#line"),  
+
+choices: document.querySelector("#choices"),  
+
+nextButton: document.querySelector("#next-button")  
+
+};  
+
+ 
+
+const state = {  
+
+data: {},  
+
+currentSet: null,  
+
+currentNode: null,  
+
+onComplete: null,  
+
+isActive: false  
+
+};  
+
+ 
+
+const setPortrait = (portrait) => {  
+
+elements.portrait.textContent = portrait ? portrait.toUpperCase() : "";  
+
+};  
+
+ 
+
+const renderNode = (node) => {  
+
+elements.speaker.textContent = node.speaker || "";  
+
+elements.line.textContent = node.text || "";  
+
+setPortrait(node.portrait);  
+
+ 
+
+elements.choices.innerHTML = "";  
+
+if (node.choices && node.choices.length > 0) {  
+
+elements.nextButton.classList.add("hidden");  
+
+node.choices.forEach((choice) => {  
+
+const button = document.createElement("button");  
+
+button.className = "choice-button";  
+
+button.type = "button";  
+
+button.textContent = choice.label;  
+
+button.addEventListener("click", () => advance(choice.next));  
+
+elements.choices.appendChild(button);  
+
+});  
+
+} else {  
+
+elements.nextButton.classList.remove("hidden");  
+
+}  
+
+};  
+
+ 
+
+const advance = (nextId = null) => {  
+
+const nodes = state.data[state.currentSet]?.nodes || {};  
+
+const nextNodeId = nextId ?? state.currentNode?.next;  
+
+if (!nextNodeId) {  
+
+stop();  
+
+return;  
+
+}  
+
+state.currentNode = nodes[nextNodeId];  
+
+renderNode(state.currentNode);  
+
+};  
+
+ 
+
+const start = (setId, onComplete) => {  
+
+const set = state.data[setId];  
+
+if (!set) {  
+
+return;  
+
+}  
+
+state.currentSet = setId;  
+
+state.currentNode = set.nodes[set.start];  
+
+state.onComplete = onComplete;  
+
+state.isActive = true;  
+
+elements.container.classList.remove("hidden");  
+
+renderNode(state.currentNode);  
+
+};  
+
+ 
+
+const stop = () => {  
+
+state.isActive = false;  
+
+elements.container.classList.add("hidden");  
+
+elements.choices.innerHTML = "";  
+
+if (state.onComplete) {  
+
+state.onComplete();  
+
+}  
+
+};  
+
+ 
+
+elements.nextButton.addEventListener("click", () => advance());  
+
+ 
+
+return {  
+
+load(data) {  
+
+state.data = data;  
+
+},  
+
+start,  
+
+stop,  
+
+get isActive() {  
+
+return state.isActive;  
+
+}  
+
+};  
+
+})(); 
+
